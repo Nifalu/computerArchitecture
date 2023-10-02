@@ -1,0 +1,140 @@
+%% General definitions
+\documentclass{article} %% Determines the general format.
+\usepackage{a4wide} %% paper size: A4.
+\usepackage[utf8]{inputenc} %% This file is written in UTF-8.
+%% Some editors on Windows cannot save files in UTF-8.
+%% If there is a problem with special characters not showing up
+%% correctly, try switching "utf8" to "latin1" (ISO 8859-1).
+\usepackage[T1]{fontenc} %% Format of hte resulting PDF file.
+\usepackage{fancyhdr} %% Package to create a header on each page.
+\usepackage{lastpage} %% Used for "Page X of Y" in the header.
+											%% For this to work, you have to call pdflatex twice.
+\usepackage{enumerate} %% Used to change the style of enumerations (see below).
+
+\usepackage{amssymb} %% Definitions for math symbols.
+\usepackage{amsmath} %% Definitions for math symbols.
+\usepackage{amsthm}
+\usepackage{braket}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+
+\usepackage{tikz}  %% Pagacke to create graphics (graphs, automata, etc.)
+\usetikzlibrary{automata} %% Tikz library to draw automata
+\usetikzlibrary{arrows}   %% Tikz library for nicer arrow heads
+
+
+%% Left side of header
+\lhead{\course\\\semester\\Exercise \homeworkNumber}
+%% Right side of header
+\rhead{\authorname\\Page \thepage\ of \pageref{LastPage}}
+%% Height of header
+\usepackage[headheight=36pt]{geometry}
+%% Page style that uses the header
+\pagestyle{fancy}
+
+\newcommand{\authorname}{Nico Bachmann\\Valentin Neher}
+\newcommand{\semester}{Fall Semester 2023}
+\newcommand{\course}{Computer Architecture}
+\newcommand{\homeworkNumber}{1}
+
+
+\begin{document}
+
+\section*{Exercise \homeworkNumber.1 XOR}
+
+\begin{figure}[h!]
+  \includegraphics[width=\linewidth]{xor.png}
+  \caption{Exclusive OR Gate outputs true if the two inputs are not the same.}
+  \label{fig:XOR}
+  
+\end{figure}
+
+\newpage
+\section*{Exercise \homeworkNumber.2 Adder}
+
+\begin{figure}[h!]
+  \includegraphics[width=\linewidth]{adder.png}
+  \caption{2 Bit Adder with only NAND to confuse everyone}
+  \label{fig:2BitAdder}
+\end{figure}
+
+\noindent
+A two bit adder is achieved by chaining two full adders together. Technically the first full adder could also be a half adder since the "first" adder doesn't need his carry in.
+\newline
+\newline
+More bits can be supported by adding more adders. 10 full adders can add two 10 Bit numbers together. The first adder will always compute the two least significant bits of the two numbers, the second adder computes the two second least significant bits and so on until the last adder that computes the most significant bits of the two numbers.
+
+
+\newpage
+\section*{Exercise \homeworkNumber.3 Flip Flops}
+
+Clock \emph{level} controlled Flip-Flops (Taktlevelgesteuert) allow state changes while the clock level is either high or low depending on the type of Flip-Flop. Assuming the state can only change when the level is \emph{high}, then the state of the Flip-Flop can be changed during that time. When the level is \emph{low}, changes are ignored.\\
+\\
+\noindent
+This can lead to confusion when multiple states are set during one \emph{high} phase because only the last state is saved.\\
+\\
+\noindent
+On the other hand, clock \emph{edge} controlled Flip-Flops (Taktflankengesteuert) set their new state only when the clock level \emph{changes} to either high or low. This way the state can not change multiple times during one clock cycle.
+
+ 
+
+\begin{figure}[h!]
+  \includegraphics[width=\linewidth]{rs-flip-flop.png}
+  \caption{RS Flip Flop keeps its state until reset, ignoring all other inputs}
+  \label{fig:RS Flip-Flop}
+\end{figure}
+
+
+\begin{figure}[h!]
+  \includegraphics[width=\linewidth]{d-flip-flop.png}
+  \caption{D Flip-Flop updates the state every clock cycle.}
+  \label{fig:D Flip-Flop}
+\end{figure}
+
+\begin{figure}[h!]
+  \includegraphics[width=\linewidth]{timing.png}
+  \caption{Clock level controlled D Flip-Flop with a manual clock, accepting state changes when clock level is \emph{high}.}
+  \label{fig:timing diagram}
+\end{figure}
+
+
+\newpage
+\section*{Exercise \homeworkNumber.4 Truth Tables}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+x4 & x3 & x2 & x1 & & Z7 & Z6 & Z5 & Z4 & Z3 & Z2 & Z1 \\
+\hline
+0 & 0 & 0 & 0 & & 1 & 1 & 1 & 0 & 1 & 1 & 1 \\
+\hline
+0 & 0 & 0 & 1 & & 0 & 1 & 0 & 0 & 1 & 0 & 0 \\
+\hline
+0 & 0 & 1 & 0 & & 1 & 0 & 1 & 1 & 1 & 0 & 1 \\
+\hline
+0 & 0 & 1 & 1 & & 1 & 1 & 0 & 1 & 1 & 0 & 1 \\
+\hline
+0 & 1 & 0 & 0 & & 0 & 1 & 0 & 1 & 1 & 1 & 0 \\
+\hline
+0 & 1 & 0 & 1 & & 1 & 1 & 0 & 1 & 0 & 1 & 1 \\
+\hline
+0 & 1 & 1 & 0 & & 1 & 1 & 1 & 1 & 0 & 1 & 1 \\
+\hline
+0 & 1 & 1 & 1 & & 0 & 1 & 0 & 0 & 1 & 0 & 1 \\
+\hline
+1 & 0 & 0 & 0 & & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+\hline
+1 & 0 & 0 & 1 & & 1 & 1 & 0 & 1 & 1 & 1 & 1 \\
+\hline
+\end{tabular}
+\caption{Truth table to control seven-segment display }
+\label{tab:my eyes hurt}
+\end{table}
+
+
+
+
+
+
+\end{document}
