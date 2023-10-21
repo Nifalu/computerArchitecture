@@ -1,0 +1,221 @@
+
+%% GENERAL DEFINITIONS
+\documentclass{article} %% Determines the general format.
+\usepackage{a4wide} %% paper size: A4.
+\usepackage[utf8]{inputenc} %% If problem with special characters: "latin1"
+\usepackage[T1]{fontenc} %% Format of the resulting PDF file.
+\usepackage{fancyhdr} %% Package to create a header on each page.
+\usepackage{lastpage} %% Used for "Page X of Y" in the header.
+\usepackage{enumerate} %% Used to change the style of enumerations (see below).
+\usepackage{amssymb} %% Definitions for math symbols.
+\usepackage{amsmath} %% Definitions for math symbols.
+\usepackage{amsthm} %% === Definition for proof paragraph ===
+\usepackage{color}
+\usepackage{comment}
+
+%% NICE ADDITIONS
+% \usepackage{parskip} %% uses empty lines for paragraphs instead of \
+% \usepackage{MnSymbol,wasysym} % smileys: \smiley{} \frownie{} \blacksmiley{}
+
+%% Remove initial indentation of first line of paragraphs
+\setlength{\parindent}{0pt}
+
+%% GRAPHS
+\usepackage{tikz}
+\usetikzlibrary{automata}
+%% Tikz library for nicer arrow heads
+\usetikzlibrary{calc,trees,positioning,arrows,fit,shapes,calc} 
+
+%% CODE LISTINGS
+\usepackage{listings}
+
+\lstset{
+    breaklines=true,
+    inputpath=code, 
+    language=C, 
+    basicstyle=\fontencoding{T1}\small\fontfamily{lmtt}\fontseries{m}\selectfont, 
+    keepspaces=true, 
+    numbers=left, 
+    stepnumber=1, 
+    frame=shadowbox, 
+    rulesepcolor=\color{gray}, 
+    commentstyle=\color{dkgreen}, 
+    keywordstyle=\color{blue},
+    showstringspaces=false}
+
+%% DEFINITIONS
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\newtheorem{statement}{Statement}
+
+%% PATHS
+\graphicspath{{images/}} %% adds graphics path
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% HEADER %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Left side of header
+\lhead{\course\\\semester\\Exercise Sheet \homeworkNumber}
+%% Right side of header
+\rhead{\authorname\\Page \thepage\ of \pageref{LastPage}}
+%% Height of header
+\usepackage[headheight=36pt]{geometry}
+%% Page style that uses the header
+\pagestyle{fancy}
+%% add title to header
+%% \chead{\huge{\textbf{Blatt \homeworkNumber}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% METADATA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\authorname}{Nico Bachmann, Valentin Neher} % TODO: add your names
+\newcommand{\semester}{Fall Term 2023}
+\newcommand{\course}{Computer Architecture}
+\newcommand{\homeworkNumber}{2} % TODO: add current sheet nr
+
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Exercise \homeworkNumber.1}
+
+\begin{flushright}
+\textbf{ex2-1.c}
+\lstinputlisting{ex2-1.c}
+\end{flushright}
+We compile the program with: \verb|gcc -o ex2-1 ex2-1.c| and receive the compiled executable \verb|ex2-1| which we can run using \verb|./ex2-1|. \\
+
+Console Output:\\
+\verb|Array in reverse Order using [ ] : 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, | \\
+\verb|Array in reverse Order using a pointer: 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, |
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Exercise \homeworkNumber.2}
+\begin{flushright}
+\textbf{ex2-2.c}
+\lstinputlisting{ex2-2.c}
+\end{flushright}
+We compile the program with: \verb|gcc -o ex2-2 ex2-2.c| and receive the compiled executable \verb|ex2-2| which we can run using \verb|./ex2-2|. \\
+
+Console Output:\\
+\verb|(2, 7, 6)|
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Exercise \homeworkNumber.3}
+First we include \verb|stdio.h| and \verb|stdlib.h| to get access to \verb|printf()|, \verb|malloc()| and \verb|free()|. Then we define our \verb|Vector| struct. We could also include it from the last exercise but then the \emph{two} main functions will do trouble. For the linked list we need a \verb|Node| structure to hold the data and a pointer to the next Node and a List Structure (\verb|VectorList|) that holds pointers to the head of the list and optionally also to the tail.\\
+
+Additionally we write a short helper function \verb|printVec| that helps us to easily print our vectors.\\
+
+Because the \verb|size()| method is used before it is defined, we write this prototype here to let the compiler know of its existence.
+
+\begin{flushright}
+\textbf{ex2-3.c}
+\lstinputlisting[firstline=1, lastline=30, firstnumber=1]{ex2-3.c}
+\end{flushright}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Now we're writing the first method \verb|getElement()| which returns a pointer to the \verb|Vector| at the given \verb|index| in the \verb|VectorList|. To do that, we first check that the given \verb|index| is not out of bounds. Secondly we handle the case when the \verb|VectorList| is empty. With those edge-cases handled, we either return \verb|head_ptr->vector| when the index is 0 or we iterate through the list to the requested \verb|index|.
+
+\begin{flushright}
+\textbf{ex2-3.c}
+\lstinputlisting[firstline=32, lastline=58, firstnumber=32]{ex2-3.c}
+\end{flushright}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The \verb|insertElementFront()| method is supposed to add an element to the front of the \verb|Vectorlist|. Since the list should be stored on the heap, we need to allocate space for a new \verb|Node| where we can store the \verb|Vector| pointer in. We initialize a temporary pointer to point at this new \verb|Node| in the heap, store the \verb|vector| pointer inside it and let it point to the head of the \verb|VectorList|. Therefore making it the new head. We change the \verb|head_ptr| which currently points to the second element to now point to the first. Lastly we take care of an edge-case, if the \verb|VectorList| was empty before, its \verb|tail_ptr| also has to point to our newly added \verb|Node| because with only a single element, tail and head are the same.
+\begin{flushright}
+\textbf{ex2-3.c}
+\lstinputlisting[firstline=62, lastline=79, firstnumber=62]{ex2-3.c}
+\end{flushright}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The next method does basically the same, just this time adding the element to the back instead of the front. We again create a \verb|Node| on the heap with a temporary pointer pointing to it. This time tough the new \verb|Node| points to \verb|NULL| since it is the last \verb|Node|. 
+
+We then handle the case of the empty \verb|VectorList| where our last \verb|Node| is also the first one. We therefore let the \verb|head_ptr| point to it. On the other hand, if the \verb|VectorList| was not empty, its current last \verb|Node| needs to point to our new node. And finally we also let the \verb|tail_ptr| point to our new last \verb|Node|.
+
+\begin{flushright}
+\textbf{ex2-3.c}
+\lstinputlisting[firstline=81, lastline=102, firstnumber=81]{ex2-3.c}
+\end{flushright}
+
+The \verb|size()| method simply iterates through the list until the current \verb|Node| is \verb|NULL| and then returns the counter.
+
+\begin{flushright}
+\textbf{ex2-3.c}
+\lstinputlisting[firstline=104, lastline=113, firstnumber=104]{ex2-3.c}
+\end{flushright}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In the \verb|main()| method we create a \verb|VectorList| and a pointer to it and some \verb|Vectors|, also with pointers to them. We're then inserting the \verb|Vectors| in our \verb|VectorList| using the two different methods and then print out its size as well as the elements using the \verb|getElement()| method.
+\begin{flushright}
+\textbf{ex2-3.c}
+\lstinputlisting[firstline=115, lastline=144, firstnumber=115]{ex2-3.c}
+\end{flushright}
+
+We compile the program with: \verb|gcc -o ex2-3 ex2-3.c| and receive the compiled executable \verb|ex2-2| which we can run using \verb|./ex2-3|. Console Output:\\
+\verb|Size of the list is 0|\\
+\verb|Size of the list is 4|\\
+\verb|First element is:|\\
+\verb|(1, 1, 1)|\\
+\verb|Second element is:|\\
+\verb|(2, 2, 2)|\\
+\verb|Third element is:|\\
+\verb|(3, 3, 3)|\\
+\verb|Fourth element is:|\\
+\verb|(4, 4, 4)|\\
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Exercise \homeworkNumber.4}
+
+Just like before we create our \verb|Vector| struct, a helper function to print the vector, another one to print an array of vectors and a third one to calculate the \verb|L2 form| of a vector.
+
+Normally we could just \verb|#include| those things from the other files but since every file has its own \verb|main()| method for that particular exercise task, the compiler loses his mind and does not want to work with multiple \verb|main()| methods...
+
+\begin{flushright}
+\textbf{ex2-4.c}
+\lstinputlisting[firstline=1, lastline=33, firstnumber=1]{ex2-4.c}
+\end{flushright}
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+For the \verb|qsort()| method to work, we need to provide a way to compare our \verb|Vectors|. Apparently as parameters, "raw?" pointers should be used and only inside the function we cast them to be \verb|Vector| pointers.
+
+We then compare the two \verb|Vectors| by their \verb|L2 form| to decide if the first one is "greater", "even", or "lesser" than the second one.
+
+\begin{flushright}
+\textbf{ex2-4.c}
+\lstinputlisting[firstline=35, lastline=47, firstnumber=35]{ex2-4.c}
+\end{flushright}
+
+Lastly we write a method to print our array of \verb|Vectors| to a file. We open the file using the \verb|fopen()| method, check if it really opened, then write to it using \verb|fprintf()|. When we're finished, we \verb|close| the file.
+
+\begin{flushright}
+\textbf{ex2-4.c}
+\lstinputlisting[firstline=49, lastline=66, firstnumber=49]{ex2-4.c}
+\end{flushright}
+\newpage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In our \verb|main()| method we initialize our array using a for loop, then print it out, sort it with our \verb|compareVec()| method and print it out again. At the end, we write our result to the file using our \verb|writeToFile()| method.
+
+\begin{flushright}
+\textbf{ex2-4.c}
+\lstinputlisting[firstline=68, lastline=85, firstnumber=68]{ex2-4.c}
+\end{flushright}
+
+
+\end{document}
