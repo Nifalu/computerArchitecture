@@ -2,33 +2,51 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-struct Vector* createVector(int a, int b, int c)
+/**
+ * Create a 3D Vector struct on the heap with the passed arguments as values 
+ * Return the pointer that points to this struct on the heap 
+ */
+struct Vector* createVector(int x, int y, int z)
 {
     struct Vector *tmp_ptr = (struct Vector*) malloc(sizeof(struct Vector));
-    tmp_ptr->a = a;
-    tmp_ptr->b = b;
-    tmp_ptr->c = c;
+    checkSuccessfulMalloc(tmp_ptr);
+    
+    tmp_ptr->x = x;
+    tmp_ptr->y = y;
+    tmp_ptr->z = z;
 
     return tmp_ptr;
 }
 
-void deleteVector(struct Vector *v)
-{
-    free(v);
-    v = NULL;
-}
 
-// Method that adds vector 'b' to vector 'a'
+/**
+ * Add Vector 'b' to Vector 'a' and store the result in Vector 'a'
+ */
 void addVector(struct Vector *a, struct Vector *b) 
 {
-    a->a += b->a;
-    a->b += b->b;
-    a->c += b->c;
+    a->x += b->x;
+    a->y += b->y;
+    a->z += b->z;
 }
 
-// Method to print a vector
+/**
+ * Helper method to print the Vector
+ */
 void printVector(struct Vector *a) 
 {
-    printf("(%d, %d, %d)", a->a, a->b, a->c);
+    printf("(%d, %d, %d)", a->x, a->y, a->z);
+}
+
+/**
+ * Helper method to check if a memory allocation was successful.
+ * Exit the program if not.
+*/
+int checkSuccessfulMalloc(void *p)
+{
+    if (p == NULL)
+    {
+        printf("unsuccessful memory allocation");
+        exit(1);
+    }
+    return 0;
 }
