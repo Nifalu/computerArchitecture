@@ -16,7 +16,6 @@ struct Vector* createVector(int a, int b, int c)
 void deleteVector(struct Vector *v)
 {
     free(v);
-    v = NULL;
 }
 
 // Method that adds vector 'b' to vector 'a'

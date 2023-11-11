@@ -27,7 +27,7 @@ struct VectorList* createVectorListWithEntry(struct VectorList *next, struct Vec
 void deleteVectorList(struct VectorList *l)
 {
     struct VectorList *current = l;
-    while (l != NULL) 
+    while (current != NULL) 
     {
         struct VectorList *tmp_next = current->next;
         free(current->v);
