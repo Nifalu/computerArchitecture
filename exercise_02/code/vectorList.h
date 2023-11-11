@@ -1,15 +1,19 @@
 #pragma once
 
+struct VectorNode
+{
+    struct Vector *data;
+    struct VectorNode *next;
+};
+
 struct VectorList
 {
-    struct VectorList *next;
-    struct VectorList *tail;
-    struct Vector *v;
+    struct VectorNode *head;
+    struct VectorNode *tail;
+    int size;
 };
 
 struct VectorList* createVectorList();
-
-struct VectorList* createVectorListWithEntry(struct VectorList *next, struct VectorList *tail, struct Vector *v);
 
 void deleteVectorList(struct VectorList *l);
 

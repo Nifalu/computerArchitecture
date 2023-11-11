@@ -2,15 +2,15 @@
 
 struct Vector
 {
-    int a;
-    int b;
-    int c;
+    int x;
+    int y;
+    int z;
 };
 
-struct Vector* createVector(int a, int b, int c);
-
-void deleteVector(struct Vector *v);
+struct Vector* createVector(int x, int y, int z);
 
 void addVector(struct Vector *a, struct Vector *b);
 
 void printVector(struct Vector *v);
+
+int checkSuccessfulMalloc(void *p);

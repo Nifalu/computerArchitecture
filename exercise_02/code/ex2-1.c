@@ -1,34 +1,35 @@
-#include <stdio.h>            // include stdio to get commands like printf
+#include <stdio.h>
 
 int main() 
 {
-    int len = 10;             // Used to set the length of the array
-    int arr[len];             // Signed integer array of size len
-    int *arr_ptr = &arr[0];   // Pointer to the first element of the array  
+    // Define the array length, the array itself and a pointer to it.
+    int len = 10;
+    int arr[len];
+    int *arr_ptr = &arr[0];
 
-    // Fill the array with integers from 0 to 9
+    // Fill the array with integers
     for (int i = 0; i < len; i++)
     {
         arr[i] = i;
     }
 
-    // Print the array using the [ ] syntax
-    printf("%s", "Array in reverse Order using [ ] : \0");
+    // Print the array in reverse Order using the bracket syntax.
+    printf("Array in reverse Order using [ ] :");
     for (int i = len-1; i >= 0; i--)
     {
         printf("%d, ", arr[i]);
     }
 
-    printf("%s","\n\0"); // new line
+    printf("\n"); // newline
 
-    // Print the array using pointer arithmetic
-    printf("%s", "Array in reverse Order using a pointer: \0");
+    // Print the array in reverse Order using pointer arithmetic.
+    printf("Array in reverse Order using pointer arithmetic:");
     for (int i = len-1; i >= 0; i--)
     {
         printf("%d, ", *(arr_ptr + i));
     }
 
-    printf("%s","\n\0"); // new line
+    printf("\n");
 
-    return 0; // indicates that program exited successfully
+    return 0; // Tells the OS that this programm exited successfully.
 }

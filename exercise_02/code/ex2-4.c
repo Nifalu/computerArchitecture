@@ -1,69 +1,70 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "vector.h"
 
-// A 3D Vector struct
-struct Vector 
-{
-    int a;
-    int b;
-    int c;
-};
-
-// Helper method to print a vector
-void printVec(struct Vector *a) 
-{
-    printf("(%d, %d, %d), ", a->a, a->b, a->c);
-}
-
-// Helper method to print the Vector Array
+/**
+ * Helper method to print the Vector Array
+*/
 void printArray(struct Vector *a, int size)
 {
     printf("[");
     for (int i = 0; i < size; i++) {
-        printVec(a+i);
+        printVector(a+i);
     }
     printf("]\n");
 }
 
-// Calculate L2 form of a vector
-double absLength(const struct Vector *a)
+/**
+ * Calculate and return the L2 norm of a vector.
+*/
+double absLength(const struct Vector *vec)
 {
-    return sqrt(a->a * a->a + a->b * a->b + a->c * a->c);
+    return sqrt(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
 }
 
-// Compare Vectors, interesting parameter declaration to work with qsort()
+/**
+ * Compare Method to define how Vectors are compared.
+ * This method is needed for the qsort() algortithm to work.
+*/
 int compareVec(const void *p, const void *q) 
 {
-    const struct Vector *a = (const struct Vector *)p;
-    const struct Vector *b = (const struct Vector *)q;
+    const struct Vector *vecA = (const struct Vector *)p;
+    const struct Vector *vecB = (const struct Vector *)q;
     
-    double lenA = absLength(a);
-    double lenB = absLength(b);
+    double lenA = absLength(vecA);
+    double lenB = absLength(vecB);
 
     if (lenA > lenB) return 1;
     if (lenA < lenB) return -1; 
     return 0;
 }
 
-// write our vectors in a txt.
-void writeToFile(struct Vector *a, int size)
+/**
+ * Write the Vector array to a file.
+ * 1. Try to open the file, return early if it failed.
+ * 2. Iterate through the array using pointer arithmetic and print to the file.
+*/
+void writeToFile(struct Vector *vec, int size)
 {
     FILE *file = fopen("vectors.txt", "w");
 
     if (!file) // check if file is there
     {
         printf("Failed to open file");
+        return;
     }
 
     // iterate through the array and write the vectors in the file.
     for (int i = 0; i < size; i++) 
     {
-        fprintf(file, "(%d, %d, %d)\n", (a+i)->a, (a+i)->b, (a+i)->c);
+        fprintf(file, "(%d, %d, %d)\n", (vec+i)->x, (vec+i)->y, (vec+i)->z);
     }
 
     fclose(file);
 }
+
+
 
 int main() {
 
@@ -73,7 +74,7 @@ int main() {
     
     for (int i = 0; i < 12; i++)
     {
-        vectorArray[i] = (struct Vector){30-i, i, 2*i};
+        vectorArray[i] = (struct Vector){12-i, 12-i, 12-i};
     }
 
     // Print the array before and after the qsort().
